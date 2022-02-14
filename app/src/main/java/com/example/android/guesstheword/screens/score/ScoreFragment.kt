@@ -22,18 +22,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.navArgs
+import androidx.fragment.app.activityViewModels
 import com.example.android.guesstheword.R
 import com.example.android.guesstheword.databinding.ScoreFragmentBinding
-import com.example.android.guesstheword.screens.game.GameViewModel
+import com.example.android.guesstheword.screens.game.SharedViewModel
 
 /**
  * Fragment where the final score is shown, after the game is over
  */
 class ScoreFragment : Fragment() {
 
-    private lateinit var viewModel: ScoreViewModel
+
+    private val viewModel: SharedViewModel by activityViewModels()
+    //private val viewModel: GameViewModel by activityViewModels()
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -42,10 +43,13 @@ class ScoreFragment : Fragment() {
     ): View? {
 
         // принимает количество очков (args.score) с помощью Bundle
-        val args =ScoreFragmentArgs.fromBundle(requireArguments())
+        //val args =ScoreFragmentArgs.fromBundle(requireArguments())
 
-        viewModel= ViewModelProvider(this).get(ScoreViewModel::class.java)
-        viewModel.score=args.score
+
+        //viewModel= ViewModelProvider(this).get(ScoreViewModel::class.java)
+        //viewModel.score.value = args.score
+
+
 
         // Inflate view and obtain an instance of the binding class.
         val binding: ScoreFragmentBinding = DataBindingUtil.inflate(
@@ -54,7 +58,11 @@ class ScoreFragment : Fragment() {
                 container,
                 false
         )
-        binding.scoreText.text = viewModel.score.toString()
+        viewModel.score.observe(viewLifecycleOwner) {
+            binding.scoreText.text = it.toString()
+        }
+
+        //binding.scoreText.text = viewModel.score.toString()
 
         return binding.root
     }
