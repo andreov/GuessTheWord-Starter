@@ -22,6 +22,13 @@ class SharedViewModel : ViewModel() {
     val eventGameFinish: LiveData<Boolean>
         get() = _eventGameFinish
 
+    // LiveData для кнопки PlayAgain in ScoreFragment
+    private val _eventPlayAgain = MutableLiveData<Boolean>()
+    val eventPlayAgain: LiveData<Boolean>
+        get() = _eventPlayAgain
+
+
+
     // The list of words - the front of the list is the next word to guess
     private lateinit var wordList: MutableList<String>
 
@@ -102,5 +109,21 @@ class SharedViewModel : ViewModel() {
             _word.value = wordList.removeAt(0)
         }
     }
+
+    fun onPlayAgain() {
+        _eventPlayAgain.value = true
+    }
+
+    fun onPlayAgainComplete() {
+        _eventPlayAgain.value = false
+    }
+
+    fun onRestartViewModel(){
+        _word.value = ""
+        _score.value = 0
+        resetList()
+        nextWord()
+    }
+
 
 }

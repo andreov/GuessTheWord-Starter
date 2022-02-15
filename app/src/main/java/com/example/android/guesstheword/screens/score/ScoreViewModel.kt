@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class ScoreViewModel(args: ScoreFragmentArgs):ViewModel() {
+class ScoreViewModel:ViewModel() {
 
     //var score = 0
 
@@ -13,7 +13,7 @@ class ScoreViewModel(args: ScoreFragmentArgs):ViewModel() {
        // get() = _score
 
     init {
-        score.value = args.score
+        score.value = 0
         Log.i("ScoreViewModel", "Final score is $score")
     }
 
