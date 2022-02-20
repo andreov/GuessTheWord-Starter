@@ -37,7 +37,7 @@ class GameFragment : Fragment() {
     private lateinit var binding: GameFragmentBinding
 
     //привязка viewModel к фрагменту
-    private val viewModel: SharedViewModel by activityViewModels()
+    private val viewModel: GameViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -99,12 +99,17 @@ class GameFragment : Fragment() {
         action.score = viewModel.score.value?:0
         NavHostFragment.findNavController(this).navigate(action)
         viewModel.onGameFinishComplete()
+
     }
 
     private fun onEndGame(){
         gameFinished()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i("GameFragment", "destroy")
+    }
 
     /** Methods for updating the UI **/
     //при установке наблюдателя обновление вьюхи происходит автоматически

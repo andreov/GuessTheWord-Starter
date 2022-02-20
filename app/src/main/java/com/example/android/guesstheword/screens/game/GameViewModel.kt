@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class SharedViewModel : ViewModel() {
+class GameViewModel : ViewModel() {
 
     // The current word private
     private val _word = MutableLiveData<String>()
@@ -22,22 +22,21 @@ class SharedViewModel : ViewModel() {
     val eventGameFinish: LiveData<Boolean>
         get() = _eventGameFinish
 
-    // LiveData для кнопки PlayAgain in ScoreFragment
-    private val _eventPlayAgain = MutableLiveData<Boolean>()
-    val eventPlayAgain: LiveData<Boolean>
-        get() = _eventPlayAgain
-
 
 
     // The list of words - the front of the list is the next word to guess
     private lateinit var wordList: MutableList<String>
 
     init {
+        initModel()
+        Log.i("GameViewModel", "GameViewModel Created!")
+    }
+
+    private fun initModel(){
         _word.value = ""
         _score.value = 0
         resetList()
         nextWord()
-        Log.i("GameViewModel", "GameViewModel Created!")
     }
 
     override fun onCleared() {
@@ -91,11 +90,15 @@ class SharedViewModel : ViewModel() {
     /** Method for the game completed event **/
     fun onGameFinish() {
         _eventGameFinish.value = true
+
     }
 
     /** Method for the game completed event **/
     fun onGameFinishComplete() {
         _eventGameFinish.value = false
+        wordList.clear()
+        initModel()
+
     }
 
     /**
@@ -110,20 +113,14 @@ class SharedViewModel : ViewModel() {
         }
     }
 
-    fun onPlayAgain() {
-        _eventPlayAgain.value = true
-    }
 
-    fun onPlayAgainComplete() {
-        _eventPlayAgain.value = false
-    }
 
-    fun onRestartViewModel(){
-        _word.value = ""
-        _score.value = 0
-        resetList()
-        nextWord()
-    }
+//    fun onRestartViewModel(){
+//        _word.value = ""
+//        _score.value = 0
+//        resetList()
+//        nextWord()
+//    }
 
 
 }
