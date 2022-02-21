@@ -58,6 +58,9 @@ class GameFragment : Fragment() {
         viewModel.eventGameFinish.observe(viewLifecycleOwner) { newFinish ->
             if (newFinish) gameFinished()
         }
+        viewModel.currentTimeString.observe(viewLifecycleOwner) {
+            binding.timerText.text = it
+        }
 
         // Inflate view and obtain an instance of the binding class
         binding = DataBindingUtil.inflate(
@@ -109,6 +112,12 @@ class GameFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         Log.i("GameFragment", "destroy")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.i("GameFragment", "start")
+        //viewModel.timer.start()
     }
 
     /** Methods for updating the UI **/
