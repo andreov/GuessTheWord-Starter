@@ -26,11 +26,11 @@ class GameViewModel : ViewModel() {
 
     // Countdown time
     private val _currentTime = MutableLiveData<Long>()
-    val currentTime: LiveData<Long>
-        get() = _currentTime
+    //val currentTime: LiveData<Long>
+        //get() = _currentTime
 
     // The String version of the current time
-    val currentTimeString = Transformations.map(currentTime) { time ->
+    val currentTimeString = Transformations.map(_currentTime) { time ->
         DateUtils.formatElapsedTime(time)
     }
 
@@ -120,8 +120,14 @@ class GameViewModel : ViewModel() {
     /** Methods for buttons presses **/
 
     fun onSkip() {
-        _score.value = (_score.value)?.minus(1)
-        nextWord()
+        when (_score.value) {
+            0 -> return
+            else -> {_score.value = (_score.value)?.minus(1)
+                nextWord()
+            }
+        }
+        //_score.value = (_score.value)?.minus(1)
+        //nextWord()
     }
 
     fun onCorrect() {
@@ -132,12 +138,13 @@ class GameViewModel : ViewModel() {
     /** Method for the game completed event **/
     fun onGameFinish() {
         _eventGameFinish.value = true
-
     }
 
     /** Method for the game completed event **/
     fun onGameFinishComplete() {
         _eventGameFinish.value = false
+        timer.cancel()
+        _currentTime.value = DONE
         wordList.clear()
         initModel()
 
@@ -148,8 +155,8 @@ class GameViewModel : ViewModel() {
      */
     private fun nextWord() {
         if (wordList.isEmpty()) {
-            //onGameFinish()
-            resetList()
+            onGameFinish()
+            //resetList()
         } else {
             //Select and remove a word from the list
             _word.value = wordList.removeAt(0)

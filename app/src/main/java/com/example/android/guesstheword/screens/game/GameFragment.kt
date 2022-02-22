@@ -120,6 +120,10 @@ class GameFragment : Fragment() {
         //viewModel.timer.start()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.timer.start()
+    }
     /** Methods for updating the UI **/
     //при установке наблюдателя обновление вьюхи происходит автоматически
 
