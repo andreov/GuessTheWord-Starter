@@ -27,7 +27,7 @@ class GameViewModel : ViewModel() {
     // Countdown time
     private val _currentTime = MutableLiveData<Long>()
     //val currentTime: LiveData<Long>
-        //get() = _currentTime
+    //get() = _currentTime
 
     // The String version of the current time
     val currentTimeString = Transformations.map(_currentTime) { time ->
@@ -57,8 +57,9 @@ class GameViewModel : ViewModel() {
         timer = object : CountDownTimer(COUNTDOWN_TIME, ONE_SECOND) {
 
             override fun onTick(millisUntilFinished: Long) {
-                _currentTime.value = millisUntilFinished/ONE_SECOND
+                _currentTime.value = millisUntilFinished / ONE_SECOND
             }
+
             override fun onFinish() {
                 _currentTime.value = DONE
                 onGameFinish()
@@ -71,8 +72,7 @@ class GameViewModel : ViewModel() {
     }
 
 
-
-    private fun initModel(){
+    private fun initModel() {
         _word.value = ""
         _score.value = 0
         resetList()
@@ -92,27 +92,27 @@ class GameViewModel : ViewModel() {
      */
     private fun resetList() {
         wordList = mutableListOf(
-            "queen",
-            "hospital",
-            "basketball",
-            "cat",
-            "change",
-            "snail",
-            "soup",
-            "calendar",
-            "sad",
-            "desk",
-            "guitar",
-            "home",
-            "railway",
-            "zebra",
-            "jelly",
-            "car",
-            "crow",
-            "trade",
-            "bag",
-            "roll",
-            "bubble"
+                "queen",
+                "hospital",
+                "basketball",
+                "cat",
+                "change",
+                "snail",
+                "soup",
+                "calendar",
+                "sad",
+                "desk",
+                "guitar",
+                "home",
+                "railway",
+                "zebra",
+                "jelly",
+                "car",
+                "crow",
+                "trade",
+                "bag",
+                "roll",
+                "bubble"
         )
         wordList.shuffle()
     }
@@ -122,7 +122,8 @@ class GameViewModel : ViewModel() {
     fun onSkip() {
         when (_score.value) {
             0 -> return
-            else -> {_score.value = (_score.value)?.minus(1)
+            else -> {
+                _score.value = (_score.value)?.minus(1)
                 nextWord()
             }
         }
@@ -162,7 +163,6 @@ class GameViewModel : ViewModel() {
             _word.value = wordList.removeAt(0)
         }
     }
-
 
 
 //    fun onRestartViewModel(){
